@@ -53,11 +53,11 @@ const Layout = (props) => {
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <FeaturedSection />
-        <FeaturedSection />
+        {/* <FeaturedSection />
 
         <FeaturedSection />
         <FeaturedSection />
-        <FeaturedSection />
+        <FeaturedSection /> */}
       </div>
     </div>
   );

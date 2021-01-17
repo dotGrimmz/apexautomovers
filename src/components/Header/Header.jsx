@@ -45,7 +45,6 @@ const Header = (props) => {
       document.body
         .getElementsByTagName("header")[0]
         .classList.add(classes[changeColorOnScroll.color]);
-      // console.log("this is triggering in the first if clause");
     } else {
       document.body
         .getElementsByTagName("header")[0]
@@ -53,7 +52,6 @@ const Header = (props) => {
       document.body
         .getElementsByTagName("header")[0]
         .classList.remove(classes[changeColorOnScroll.color]);
-      // console.log("this is triggering in the second if clause");
     }
   };
   const handleDrawerToggle = () => {

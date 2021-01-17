@@ -28,12 +28,12 @@ const Header = (props) => {
   useEffect(() => {
     if (changeColorOnScroll)
       window.addEventListener("scroll", headerColorChange);
-    const cleanUp = () => {
-      if (props.changeColorOnScroll)
+
+    return function cleanUp() {
+      if (changeColorOnScroll)
         window.removeEventListener("scroll", headerColorChange);
     };
-    return cleanUp();
-  }, []);
+  });
 
   const headerColorChange = () => {
     const { color, changeColorOnScroll } = props;
@@ -45,6 +45,7 @@ const Header = (props) => {
       document.body
         .getElementsByTagName("header")[0]
         .classList.add(classes[changeColorOnScroll.color]);
+      // console.log("this is triggering in the first if clause");
     } else {
       document.body
         .getElementsByTagName("header")[0]
@@ -52,6 +53,7 @@ const Header = (props) => {
       document.body
         .getElementsByTagName("header")[0]
         .classList.remove(classes[changeColorOnScroll.color]);
+      // console.log("this is triggering in the second if clause");
     }
   };
   const handleDrawerToggle = () => {
@@ -107,6 +109,42 @@ const Header = (props) => {
       </Hidden>
     </AppBar>
   );
+};
+
+Header.defaultProp = {
+  color: "white",
+};
+
+Header.propTypes = {
+  color: PropTypes.oneOf([
+    "primary",
+    "info",
+    "success",
+    "warning",
+    "danger",
+    "transparent",
+    "white",
+    "rose",
+    "dark",
+  ]),
+  links: PropTypes.node,
+  brand: PropTypes.string,
+  fixed: PropTypes.bool,
+  absolute: PropTypes.bool,
+  changeColorOnScroll: PropTypes.shape({
+    height: PropTypes.number.isRequired,
+    color: PropTypes.oneOf([
+      "primary",
+      "info",
+      "success",
+      "warning",
+      "danger",
+      "transparent",
+      "white",
+      "rose",
+      "dark",
+    ]).isRequired,
+  }),
 };
 
 export default Header;

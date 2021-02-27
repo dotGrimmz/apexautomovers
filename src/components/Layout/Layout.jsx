@@ -9,13 +9,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import landingPageStyle from "../../assets/components/landingPageStyle";
 import GridContainer from "../Grid/GridContainer";
 import GridItem from "../Grid/GridItem";
-import Button from "../CustomButtons/Button";
-import FeaturedSection from "../FeaturedSection/FeaturedSection";
+import Footer from "../Footer/Footer.jsx";
+import VehicleSection from "../VehicleSection/VehicleSection";
 
 const useStyles = makeStyles(landingPageStyle);
 
+//youre going to re do all of this and get your styles thats fucking NEEDED
+
 const Layout = (props) => {
-  // const { children } = props;
+  const { children } = props;
   const classes = useStyles();
 
   useEffect(() => {
@@ -32,35 +34,39 @@ const Layout = (props) => {
         links={<HeaderLinks dropdownHoverColor="info" />}
         fixed
         changeColorOnScroll={{
-          height: 500,
+          height: 780,
           color: "dark",
         }}
       />
       <Parallax image={index} filter="dark">
         <div className={classes.container}>
           <GridContainer>
-            <GridItem xs={12} sm={6}>
-              <h1 className={classes.title}>Apex Auto Movers</h1>
+            <GridItem xs={12} md={6}>
+              <h1 style={styles.title}>
+                Top Rated Vehicle Shipping Services in the South East
+              </h1>
               <h4>Why choosing us will save you the most</h4>
               <br />
-              <Button color="danger" size="lg" href="/" target="_blank">
-                <i className="fas fa-play" />
-                Get an Estimate Now
-              </Button>
+            </GridItem>
+            <GridItem xs={12} md={6}>
+              <VehicleSection />
             </GridItem>
           </GridContainer>
         </div>
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
-        <FeaturedSection />
-        {/* <FeaturedSection />
-
-        <FeaturedSection />
-        <FeaturedSection />
-        <FeaturedSection /> */}
+        {children}
       </div>
+      <Footer />
     </div>
   );
+};
+
+const styles = {
+  title: {
+    fontFamily: "Impact, fantasy",
+    fontSize: "44px",
+  },
 };
 
 export default Layout;

@@ -34,7 +34,7 @@ const Layout = (props) => {
         links={<HeaderLinks dropdownHoverColor="info" />}
         fixed
         changeColorOnScroll={{
-          height: 780,
+          height: 350,
           color: "dark",
         }}
       />

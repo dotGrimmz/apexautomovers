@@ -1,12 +1,9 @@
 import React from "react";
-
-import {  Router, Route } from "react-router-dom";
+import { Router, Route } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import Layout from "./components/Layout/Layout";
-import TeamSection from '../src/components/TeamSection/TeamSection.jsx';
-import ServiceSection from './components/ServiceSection/ServiceSection.jsx';
+import LandingPage from './pages/LandingPage';
 import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider}  from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 
 function App() {
@@ -18,18 +15,13 @@ function App() {
   });
 
   return (
-      <Router history={hist}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <Router history={hist}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <Route component={LandingPage} />
 
-        <Layout>
-        {/* <Route  component={FeaturedSection} /> */}
-        {/* <Route  component={VehicleSection} /> */}
-        <Route component={ServiceSection} />
-        <Route  component={TeamSection} />
-        </Layout>
-        </MuiPickersUtilsProvider>
-      </Router>
-    
+      </MuiPickersUtilsProvider>
+    </Router>
+
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
@@ -66,14 +66,14 @@ const ProfileCards = (props) => {
       alignItems="center"
       style={styles.card}
     >
-      <Grid item xs={12} align="center" raised>
+      <Grid item xs={12} align="center" >
         <Avatar style={styles.avatar} alt="BradProfilePic" src={image} />
       </Grid>
       <Grid item>
         <p>{title}</p>
       </Grid>
       <Grid item align="center">
-        <Typography textAlign="center" variant="caption">
+        <Typography textalign="center" variant="caption">
           {description}
         </Typography>
       </Grid>

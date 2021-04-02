@@ -3,9 +3,45 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 
 const InfoArea = (props) => {
-  const { icon, title, description } = props;
+  const { icon, title, description, right } = props;
+  const styles = {
+    icon: {
+      fontSize: "33px",
+    },
+    description: {
+      margin: "1%",
+      whiteSpace: "normal",
+      fontFamily: "Roboto Helvetica Arial sans-serif",
+      color: "#999",
+      overflow: "hidden",
+      fontSize: "15px",
+    },
+    title: {
+      color: "#3C4858",
+      marginTop: "30px",
+      fontFamily: "Roboto Slab Times New Roman serif",
+      fontSize: "20px",
+      marginBottom: "0px",
+    },
+    container: {
+      width: "300px",
+      minHeight: "180px",
+      margin: "5%",
+      borderLeft: right ? "" : "5px solid black",
+      borderRight: right ? "5px solid black" : "",
+    },
+    iconContainer: {
+      paddingLeft: "5%",
+      marginTop: "5%",
+      marginBottom: "0px",
+    },
+    titleContainer: {
+      paddingRight: "5%",
+      paddingBottom: "0px",
+    },
+  };
   return (
-    <Card style={styles.container} alignItems="base-line">
+    <Card style={styles.container}>
       <Grid container>
         <Grid item xs={2} align="left" style={styles.iconContainer}>
           {icon}
@@ -19,41 +55,6 @@ const InfoArea = (props) => {
       </Grid>
     </Card>
   );
-};
-
-const styles = {
-  icon: {
-    fontSize: "33px",
-  },
-  description: {
-    marginLeft: "10%",
-    whiteSpace: "normal",
-    fontFamily: "Roboto Helvetica Arial sans-serif",
-    color: "#999",
-    overflow: "hidden",
-    fontSize: "15px",
-  },
-  title: {
-    color: "#3C4858",
-    marginTop: "30px",
-    fontFamily: "Roboto Slab Times New Roman serif",
-    fontSize: "20px",
-    marginBottom: "0px",
-  },
-  container: {
-    maxWidth: "300px",
-    minHeight: "180px",
-    margin: "5%",
-  },
-  iconContainer: {
-    paddingLeft: "5%",
-    marginTop: "5%",
-    marginBottom: "0px",
-  },
-  titleContainer: {
-    paddingRight: "5%",
-    paddingBottom: "0px",
-  },
 };
 
 export default InfoArea;

@@ -74,8 +74,9 @@ const personObj = [
 ];
 
 const TeamSection = (props) => {
+  const { teamSectionRef } = props;
   return (
-    <>
+    <div ref={teamSectionRef}>
       <Divider style={styles.divider} variant="middle" />
       <Typography style={styles.title} align="center" variant="h1">
         Our Team
@@ -98,7 +99,7 @@ const TeamSection = (props) => {
           );
         })}
       </Grid>
-    </>
+    </div>
   );
 };
 

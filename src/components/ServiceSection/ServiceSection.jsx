@@ -4,7 +4,8 @@ import InfoArea from "./InfoArea";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import cars from "../../images/carsontruckbed.jpg";
 
-const ServiceSection = () => {
+const ServiceSection = (props) => {
+  const { serviceSectionRef } = props;
   const styles = {
     title: {
       color: "#3C4858",
@@ -15,34 +16,46 @@ const ServiceSection = () => {
       marginBottom: "25px",
       textDecoration: "none",
     },
-    edgesLeft: {
-      paddingLeft: "5%",
-    },
-    edgesRight: {
-      paddingRight: "5%",
-    },
     image: {
       borderRadius: "10px",
       border: "3px solid #000000",
+      height: "auto",
+      maxWidth: "100%",
     },
     imageContainer: {
       margin: "auto",
     },
+    container: {
+      padding: "5%",
+    },
+    divider: {
+      maxWidth: "80%",
+      margin: "auto",
+      color: "red",
+    },
   };
+
+
   return (
-    <Grid container justify="center" align="center">
+    <Grid
+      container
+      justify="center"
+      align="center"
+      style={styles.container}
+      inputProps={{ 'id': 'services-section' }}
+      ref={serviceSectionRef}
+    >
       <Grid container justify="center">
         <Grid item xs={12}>
-          <h2 style={styles.title}>Your life will be much easier</h2>
+          <h2 style={styles.title} >Your life will be much easier</h2>
           <h5>
             This is the paragraph where you can write more details about your
             product. Keep you user engaged by providing meaningful information.
           </h5>
         </Grid>
       </Grid>
-
-      <Grid container>
-        <Grid item xs={12} md={4} style={styles.edgesLeft}>
+      <Grid container justify="center">
+        <Grid item xs={12} md={12} lg={3}>
           <InfoArea
             icon={
               <LocalShippingIcon
@@ -69,16 +82,13 @@ const ServiceSection = () => {
               />
             }
             title={"This is going to be easy"}
-            description={
-              "Booking an order is easy. You are always kept in the loop. asdflkajsdflkasdasdfasdfas dfasdfasdfasdfasdfasdfasdfasdf asdfadsfasdfasdfasdfasdfasdfasd fadsfadsfasdfasdfasdfasdf"
-            }
+            description={"go out like im ruadsfasd"}
           />
         </Grid>
-
-        <Grid item xs={12} md={4} style={styles.imageContainer}>
-          <img src={cars} style={styles.image} />
+        <Grid item xs={12} md={12} lg={6} style={styles.imageContainer}>
+          <img alt='carsloaded' src={cars} style={styles.image} />
         </Grid>
-        <Grid item xs={12} md={4} style={styles.edgesRight}>
+        <Grid item xs={12} md={12} lg={3} style={styles.edgesRight}>
           <InfoArea
             icon={
               <LocalShippingIcon
@@ -89,6 +99,7 @@ const ServiceSection = () => {
                 }}
               />
             }
+            right
             title={"This is going to be easy"}
             description={
               "Booking an order is easy. You are always kept in the loop. asdflkajsdflkasdasdfasdfas dfasdfasdfasdfasdfasdfasdfasdf asdfadsfasdfasdfasdfasdfasdfasd fadsfadsfasdfasdfasdfasdf"
@@ -105,6 +116,7 @@ const ServiceSection = () => {
               />
             }
             title={"This is going to be easy"}
+            right
             description={
               "Booking an order is easy. You are always kept in the loop. asdflkajsdflkasdasdfasdfas dfasdfasdfasdfasdfasdfasdfasdf asdfadsfasdfasdfasdfasdfasdfasd fadsfadsfasdfasdfasdfasdf"
             }

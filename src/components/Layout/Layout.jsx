@@ -14,24 +14,33 @@ import VehicleSection from "../VehicleSection/VehicleSection";
 
 const useStyles = makeStyles(landingPageStyle);
 
-//youre going to re do all of this and get your styles thats fucking NEEDED
-
 const Layout = (props) => {
-  const { children } = props;
+  const { children, handleReviewsScrollIntoView, handleServicesScrollIntoView, handleTeamScrollIntoView } = props;
   const classes = useStyles();
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
   });
 
+
+
+
   return (
     <div>
       <CssBaseline />
       <Header
+        handleReviewsScrollIntoView={handleReviewsScrollIntoView}
+        handleTeamScrollIntoView={handleTeamScrollIntoView}
+        handleServicesScrollIntoView={handleServicesScrollIntoView}
         color="transparent"
-        brand="Apex Auto Movers"
-        links={<HeaderLinks dropdownHoverColor="info" />}
+        brand={<b>Apex Auto Movers</b>}
+        links={<HeaderLinks
+          handleReviewsScrollIntoView={handleReviewsScrollIntoView}
+          handleTeamScrollIntoView={handleTeamScrollIntoView}
+          handleServicesScrollIntoView={handleServicesScrollIntoView}
+          dropdownHoverColor="info" />}
         fixed
         changeColorOnScroll={{
           height: 350,
@@ -48,7 +57,7 @@ const Layout = (props) => {
               <h4>Why choosing us will save you the most</h4>
               <br />
             </GridItem>
-            <GridItem xs={12} md={6}>
+            <GridItem xs={12} md={6} style={{ margin: "auto" }}>
               <VehicleSection />
             </GridItem>
           </GridContainer>
@@ -57,7 +66,7 @@ const Layout = (props) => {
       <div className={classNames(classes.main, classes.mainRaised)}>
         {children}
       </div>
-      <Footer />
+      <Footer handleReviewsScrollIntoView={handleReviewsScrollIntoView} handleTeamScrollIntoView={handleTeamScrollIntoView} handleServicesScrollIntoView={handleServicesScrollIntoView} />
     </div>
   );
 };

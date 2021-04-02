@@ -44,10 +44,16 @@ const styles = {
     minWidth: 250,
   },
   container: {
-    backgroundColor: "grey",
     border: "5px black solid",
     borderRadius: "0px 0px 10px 10px",
     maxWidth: 470,
+    backgroundColor: "#343434",
+    background:
+      "radial-gradient(ellipse at center," +
+      "#FFFFFF" +
+      " 0," +
+      "#3f51b5" +
+      " 100%)",
   },
   stepperHeader: {
     maxWidth: 470,
@@ -60,9 +66,9 @@ const styles = {
 const getSteps = () => {
   return ["Location Info", "Vehicle Details", "Confirmation"];
 };
+const service = new ApexAutoMoversService();
 
 const VehicleSection = () => {
-  const service = new ApexAutoMoversService();
 
   const [vehYear, setVehYear] = useState("");
   const [vehMake, setVehMake] = useState("");
@@ -77,12 +83,6 @@ const VehicleSection = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const steps = getSteps();
-
-  // fix the icon buttons in the form area
-  // complete step 3
-  // style the drop downs. theyre currently hideous
-
-  // https://material-ui.com/components/steppers/#stepper
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
@@ -91,10 +91,6 @@ const VehicleSection = () => {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
   };
 
   const handleDateChange = (date) => {
@@ -107,7 +103,8 @@ const VehicleSection = () => {
       try {
         let response = await service.getVehMake(vehYear);
         response.data.map((x) => {
-          makes.push(x.make);
+          return makes.push(x.make);
+
         });
         setVehicleMakes(makes);
       } catch (error) {
@@ -129,7 +126,7 @@ const VehicleSection = () => {
       }
     };
     if (vehMake !== "" && vehYear !== "") assignVehicleModels();
-  }, [vehMake]);
+  }, [vehMake, vehYear]);
 
   const handleYearChange = (event) => {
     setVehYear(event.target.value);
@@ -185,7 +182,7 @@ const VehicleSection = () => {
             </Grid>
             <Grid align="center">
               <Button
-                disabled={originZip == "" || destinationZip == ""}
+                disabled={originZip === "" || destinationZip === ""}
                 variant="contained"
                 color="primary"
                 onClick={handleNext}
@@ -278,7 +275,7 @@ const VehicleSection = () => {
               </Grid>
               <Grid item>
                 <Button
-                  disabled={vehMake == "" || vehModel == ""}
+                  disabled={vehMake === "" || vehModel === ""}
                   variant="contained"
                   color="primary"
                   onClick={handleNext}

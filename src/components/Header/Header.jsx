@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 import classNames from "classnames";
-// nodejs library to set properties for components
-import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import ViewCarousel from "@material-ui/icons/ViewCarousel";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
 // @material-ui/icons
@@ -58,6 +53,7 @@ const Header = (props) => {
     setMobileOpen(!mobileOpen);
   };
 
+
   const { color, links, brand, fixed, absolute, changeColorOnScroll } = props;
   const appBarClasses = classNames({
     [classes.appBar]: true,
@@ -68,9 +64,7 @@ const Header = (props) => {
   return (
     <AppBar className={appBarClasses}>
       <Toolbar className={classes.container}>
-        <Button className={classes.title}>
-          <Link to="/">{brand}</Link>
-        </Button>
+        <div className={classes.title}>{brand}</div>
         <Hidden smDown implementation="css" className={classes.hidden}>
           <div className={classes.collapse}>{links}</div>
         </Hidden>
@@ -113,36 +107,5 @@ Header.defaultProp = {
   color: "white",
 };
 
-Header.propTypes = {
-  color: PropTypes.oneOf([
-    "primary",
-    "info",
-    "success",
-    "warning",
-    "danger",
-    "transparent",
-    "white",
-    "rose",
-    "dark",
-  ]),
-  links: PropTypes.node,
-  brand: PropTypes.string,
-  fixed: PropTypes.bool,
-  absolute: PropTypes.bool,
-  changeColorOnScroll: PropTypes.shape({
-    height: PropTypes.number.isRequired,
-    color: PropTypes.oneOf([
-      "primary",
-      "info",
-      "success",
-      "warning",
-      "danger",
-      "transparent",
-      "white",
-      "rose",
-      "dark",
-    ]).isRequired,
-  }),
-};
 
 export default Header;

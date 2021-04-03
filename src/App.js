@@ -1,9 +1,13 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Router, Route } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import LandingPage from './pages/LandingPage';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import ContextImplementation from '../src/context/ContextImplementation';
+
+const LandingPage = lazy(() => import('./pages/LandingPage/LandingPage'))
+const QuotePage = lazy(() => import('./pages/QuotePage/QuotePage'))
+
 
 
 function App() {
@@ -15,12 +19,19 @@ function App() {
   });
 
   return (
-    <Router history={hist}>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Route component={LandingPage} />
+    //make the suspence fallback a dope ass Icon
+    <Suspense fallback={<div />}>
+      <Router history={hist}>
+        <ContextImplementation>
 
-      </MuiPickersUtilsProvider>
-    </Router>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Route path='/home' component={LandingPage} />
+            <Route path='/quote' component={QuotePage} />
+          </MuiPickersUtilsProvider>
+        </ContextImplementation>
+
+      </Router>
+    </Suspense>
 
   );
 }

@@ -15,9 +15,6 @@ import styles from "../../assets/components/customDropdownStyle";
 
 const useStyles = makeStyles(styles);
 
-//
-//
-//
 
 const CustomDropdown = (props) => {
   const classes = useStyles();

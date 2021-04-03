@@ -15,7 +15,7 @@ import VehicleSection from "../VehicleSection/VehicleSection";
 const useStyles = makeStyles(landingPageStyle);
 
 const Layout = (props) => {
-  const { children, handleReviewsScrollIntoView, handleServicesScrollIntoView, handleTeamScrollIntoView } = props;
+  const { children, handleReviewsScrollIntoView, handleServicesScrollIntoView, handleTeamScrollIntoView, routeToQuote } = props;
   const classes = useStyles();
 
 
@@ -58,7 +58,7 @@ const Layout = (props) => {
               <br />
             </GridItem>
             <GridItem xs={12} md={6} style={{ margin: "auto" }}>
-              <VehicleSection />
+              <VehicleSection routeToQuote={routeToQuote} />
             </GridItem>
           </GridContainer>
         </div>

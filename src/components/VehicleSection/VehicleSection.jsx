@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -12,6 +12,7 @@ import StepContent from "@material-ui/core/StepContent";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { KeyboardDatePicker } from "@material-ui/pickers";
+import AAMContext from '../../context/AAMContext';
 
 const styles = {
   card: {
@@ -68,8 +69,9 @@ const getSteps = () => {
 };
 const service = new ApexAutoMoversService();
 
-const VehicleSection = () => {
+const VehicleSection = (props) => {
 
+  const { routeToQuote } = props;
   const [vehYear, setVehYear] = useState("");
   const [vehMake, setVehMake] = useState("");
   const [vehModel, setVehModel] = useState("");
@@ -82,12 +84,34 @@ const VehicleSection = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+  const context = useContext(AAMContext);
+  const { setLogisticsData, setVehData, setUserData } = context;
+
   const steps = getSteps();
   const [activeStep, setActiveStep] = useState(0);
 
-  const handleNext = () => {
+  const handleNext = (stepname) => {
+    if (stepname === 'logistics') {
+      setLogisticsData({
+        originZip, destinationZip, selectedDate
+      })
+    } else if (stepname === 'vehData') {
+      setVehData({ vehYear, vehMake, vehModel })
+    }
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
+
+  const handleGenerateQuote = () => {
+    //this is the last step so we can store the data now
+    setUserData({
+      fullName, email, phoneNumber
+    });
+
+    // this will either make api calls or store more data in context while we might gather more data
+
+    routeToQuote()
+
+  }
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -185,7 +209,7 @@ const VehicleSection = () => {
                 disabled={originZip === "" || destinationZip === ""}
                 variant="contained"
                 color="primary"
-                onClick={handleNext}
+                onClick={() => handleNext('logistics')}
               >
                 Next
               </Button>
@@ -278,7 +302,7 @@ const VehicleSection = () => {
                   disabled={vehMake === "" || vehModel === ""}
                   variant="contained"
                   color="primary"
-                  onClick={handleNext}
+                  onClick={() => handleNext('vehData')}
                 >
                   Next
                 </Button>
@@ -342,7 +366,7 @@ const VehicleSection = () => {
                   }
                   variant="contained"
                   color="primary"
-                  onClick={() => console.log("quote generated")}
+                  onClick={handleGenerateQuote}
                 >
                   Generate Quote
                 </Button>

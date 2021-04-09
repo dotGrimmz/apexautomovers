@@ -6,7 +6,6 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import ContextImplementation from '../src/context/ContextImplementation';
 
 const LandingPage = lazy(() => import('./pages/LandingPage/LandingPage'))
-const QuotePage = lazy(() => import('./pages/QuotePage/QuotePage'))
 
 
 
@@ -23,10 +22,8 @@ function App() {
     <Suspense fallback={<div />}>
       <Router history={hist}>
         <ContextImplementation>
-
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Route path='/home' component={LandingPage} />
-            <Route path='/quote' component={QuotePage} />
+            <Route exact path='/home' component={LandingPage} />
           </MuiPickersUtilsProvider>
         </ContextImplementation>
 

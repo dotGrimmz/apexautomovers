@@ -29,6 +29,7 @@ const InfoArea = (props) => {
       margin: "5%",
       borderLeft: right ? "" : "5px solid black",
       borderRight: right ? "5px solid black" : "",
+      boxShadow: "1px 3px 1px #000000",
     },
     iconContainer: {
       paddingLeft: "5%",

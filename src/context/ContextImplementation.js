@@ -49,12 +49,30 @@ class ContextImplementation extends Component {
             }
         })
     }
-    // find zipcode api for verification
+
+    setOriginCoordinates = data => {
+        this.setState({
+            originCoordinates: data
+        })
+    }
+
+    setDestinationCoordinates = data => {
+        this.setState({
+            destinationCoordinates: data
+        })
+    }
+
+    toggleQuoteGenerated = () => {
+        this.setState({ quoteGenerated: true })
+    }
+
+
+
     state = {
         logisticsData: {
-            originZip: '',
-            destinationZip: '',
-            pickupDate: '',
+            originCity: '',
+            destinationCity: '',
+            selectedDate: '',
         },
         vehData: {
             vehYear: '',
@@ -62,14 +80,28 @@ class ContextImplementation extends Component {
             vehModel: ''
         },
         userData: {
-            firstName: '',
-            lastName: '',
+            fullName: '',
+            email: '',
             phoneNumber: ''
         },
+        originCoordinates: {
+            lat: 0,
+            lng: 0
+        },
 
+        destinationCoordinates: {
+            lat: 0,
+            lng: 0
+        },
+        quoteGenerated: false,
+
+        toggleQuoteGenerated: this.toggleQuoteGenerated,
         setLogisticsData: this.setLogisticsData,
         setUserData: this.setUserData,
-        setVehData: this.setVehData
+        setVehData: this.setVehData,
+        setOriginCoordinates: this.setOriginCoordinates,
+        setDestinationCoordinates: this.setDestinationCoordinates
+
     }
 
 
@@ -77,10 +109,8 @@ class ContextImplementation extends Component {
 
     render() {
         const { children } = this.props;
-        console.log(this.state.logisticsData, 'logistics data')
-        console.log(this.state.vehData, 'veh data')
+        console.log(this.state.quoteGenerated, 'logistics data')
 
-        console.log(this.state.userData, 'user data')
 
 
         return (

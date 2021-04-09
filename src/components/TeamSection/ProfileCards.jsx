@@ -24,6 +24,7 @@ const styles = {
     height: "150px",
     margin: "2%",
     elevation: 2,
+    boxShadow: "1px 1px 1px 1px #000000",
   },
   card: {
     width: "200px",

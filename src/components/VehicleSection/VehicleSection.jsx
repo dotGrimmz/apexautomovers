@@ -13,87 +13,46 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import AAMContext from '../../context/AAMContext';
-
-const styles = {
-  card: {
-    maxWidth: "cover",
-    margin: "auto",
-    backgroundColor: "transparent",
-  },
-  cardHeader: {
-    fontFamily: "Impact, fantasy",
-    fontSize: "34px",
-    margin: "0%",
-    padding: "0%",
-  },
-  divider: {
-    maxWidth: "80%",
-    margin: "auto",
-    marginBottom: "10%",
-  },
-  title: {
-    margin: "auto",
-  },
-  item: {
-    margin: "3%",
-  },
-  formControl: {
-    margin: "2%",
-    minWidth: 120,
-  },
-  textfields: {
-    minWidth: 250,
-  },
-  container: {
-    border: "5px black solid",
-    borderRadius: "0px 0px 10px 10px",
-    maxWidth: 470,
-    backgroundColor: "#343434",
-    background:
-      "radial-gradient(ellipse at center," +
-      "#FFFFFF" +
-      " 0," +
-      "#3f51b5" +
-      " 100%)",
-  },
-  stepperHeader: {
-    maxWidth: 470,
-    backgroundColor: "black",
-    border: "5px black solid",
-    borderRadius: "10px 10px 0px 0px",
-  },
-};
+import LinearProgress from '@material-ui/core/LinearProgress';
+import PlacesAutocomplete, {
+  geocodeByAddress, getLatLng
+} from "react-places-autocomplete";
+import { Typography } from "@material-ui/core";
 
 const getSteps = () => {
-  return ["Location Info", "Vehicle Details", "Confirmation"];
+  return ["Location Info", "Vehicle Details", "Confirm", "Quote Confirmation Number"];
 };
 const service = new ApexAutoMoversService();
 
 const VehicleSection = (props) => {
-
-  const { routeToQuote } = props;
+  const { handleQuoteScrollIntoView } = props;
   const [vehYear, setVehYear] = useState("");
   const [vehMake, setVehMake] = useState("");
   const [vehModel, setVehModel] = useState("");
   const [vehicleModels, setVehicleModels] = useState([]);
   const [vehicleMakes, setVehicleMakes] = useState([]);
-  const [originZip, setOriginZip] = useState("");
-  const [destinationZip, setDestinationZip] = useState("");
+  const [originCity, setOriginCity] = useState("");
+  const [destinationCity, setDestinationCity] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const context = useContext(AAMContext);
-  const { setLogisticsData, setVehData, setUserData } = context;
+  const { setLogisticsData, setVehData, setUserData, setOriginCoordinates,
+    setDestinationCoordinates, toggleQuoteGenerated, userData, vehData, logisticsData } = context;
 
   const steps = getSteps();
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = (stepname) => {
     if (stepname === 'logistics') {
+
+
+      let newSelectedDate = selectedDate.toDateString()
+
       setLogisticsData({
-        originZip, destinationZip, selectedDate
+        originCity, destinationCity, 'selectedDate': newSelectedDate
       })
     } else if (stepname === 'vehData') {
       setVehData({ vehYear, vehMake, vehModel })
@@ -102,15 +61,13 @@ const VehicleSection = (props) => {
   };
 
   const handleGenerateQuote = () => {
-    //this is the last step so we can store the data now
     setUserData({
       fullName, email, phoneNumber
     });
 
-    // this will either make api calls or store more data in context while we might gather more data
 
-    routeToQuote()
-
+    toggleQuoteGenerated()
+    handleNext()
   }
 
   const handleBack = () => {
@@ -160,38 +117,121 @@ const VehicleSection = (props) => {
     setVehModel("");
   };
 
+  const handleOriginChange = (value) => {
+    setOriginCity(value)
+  }
+
+  const handleSelectOriginChange = async (value) => {
+    setOriginCity(value)
+    geocodeByAddress(value)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        setOriginCoordinates(latLng)
+      })
+      .catch(error => console.error('Error', error));
+  }
+
+  const handleDestinationChange = value => {
+    setDestinationCity(value)
+  }
+
+
+
+  const handleSelectDestinationChange = async (value) => {
+    setDestinationCity(value)
+    geocodeByAddress(value)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        console.log('Success', latLng)
+        setDestinationCoordinates(latLng)
+      })
+      .catch(error => console.error('Error', error));
+
+  }
+
   const getStepContent = (step) => {
     switch (step) {
       case 0:
         return (
           <Grid container justify="center" alignItems="center">
-            <Grid item xs={12} style={{ margin: "1%" }} align="center">
-              <FormControl>
-                <TextField
-                  style={styles.textfields}
-                  required
-                  variant="outlined"
-                  label="Pick up Location Zip Code"
-                  value={originZip}
-                  size="small"
-                  onChange={(e) => setOriginZip(e.target.value)}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} style={{ margin: "1%" }} align="center">
-              <TextField
-                style={styles.textfields}
-                required
-                variant="outlined"
-                label="Pick up Destination Zip Code"
-                value={destinationZip}
-                size="small"
-                onChange={(e) => setDestinationZip(e.target.value)}
-              />
-            </Grid>
+            <PlacesAutocomplete
+              value={originCity}
+              onSelect={handleSelectOriginChange}
+              onChange={handleOriginChange}
+              debounce={1000}
+            >
+              {({
+                getInputProps,
+                suggestions,
+                getSuggestionItemProps,
+                loading
+              }) => (
+                  <Grid item xs={12} style={{ margin: "1%" }} align="center">
+                    <FormControl>
+                      <TextField
+                        {...getInputProps()}
+                        style={styles.textfields}
+                        required
+                        variant="outlined"
+                        label="Origin City"
+                        size="small"
+                        name='originCity'
+                      />
+                      {loading && <LinearProgress />}
+                      {suggestions.map((suggestion) => {
+                        let style = suggestion.active ? { backgroundColor: 'white', cursor: 'pointer' }
+                          : { backgroundColor: 'lightblue', cursor: 'pointer' };
+                        return (
+                          <div {...getSuggestionItemProps(suggestion, { style })}>
+                            {suggestion.description}
+                          </div>
+                        )
+                      })}
+                    </FormControl>
+                  </Grid>
+                )}
+            </PlacesAutocomplete>
+            <PlacesAutocomplete
+              value={destinationCity}
+              onSelect={handleSelectDestinationChange}
+              onChange={handleDestinationChange}
+              debounce={1000}
+            >
+              {({
+                getInputProps,
+                suggestions,
+                getSuggestionItemProps,
+                loading
+              }) => (
+                  <Grid item xs={12} style={{ margin: "1%" }} align="center">
+                    <FormControl>
+                      <TextField
+                        {...getInputProps()}
+                        style={styles.textfields}
+                        required
+                        variant="outlined"
+                        label="Destination City"
+                        size="small"
+                        name='destinationCity'
+                      />
+                      {loading && <LinearProgress />}
+                      {suggestions.map((suggestion) => {
+                        let style = suggestion.active ? { backgroundColor: 'white', cursor: 'pointer' }
+                          : { backgroundColor: 'lightblue', cursor: 'pointer' };
+                        return (
+                          <div {...getSuggestionItemProps(suggestion, { style })}>
+                            {suggestion.description}
+                          </div>
+                        )
+                      })}
+                    </FormControl>
+                  </Grid>
+                )}
+            </PlacesAutocomplete>
             <Grid item xs={12} align="center">
               <KeyboardDatePicker
                 disableToolbar
+                autoOk
                 variant="inline"
                 disablePast
                 format="MM/dd/yyyy"
@@ -206,7 +246,7 @@ const VehicleSection = (props) => {
             </Grid>
             <Grid align="center">
               <Button
-                disabled={originZip === "" || destinationZip === ""}
+                disabled={originCity === "" || destinationCity === ""}
                 variant="contained"
                 color="primary"
                 onClick={() => handleNext('logistics')}
@@ -374,6 +414,20 @@ const VehicleSection = (props) => {
             </Grid>
           </div>
         );
+      case 3: return (<div>
+        <Grid container >
+          <Grid item xs={12}>
+            <Typography variant='h5' align='center'>
+              {/* // youre going to display a confirmatio number that comes back from the back end that the end user can ref  */}
+              <b> Thank You for Choosing Apex Auto Movers!</b>
+              <h6>Confirmation Number: <b>12343423</b> </h6>
+            </Typography>
+          </Grid>
+        </Grid>
+
+      </div>
+
+      );
       default:
         return "unknown step";
     }
@@ -436,5 +490,57 @@ const years = [
   "2020",
   "2021",
 ];
+
+
+const styles = {
+  card: {
+    maxWidth: "cover",
+    margin: "auto",
+    backgroundColor: "transparent",
+  },
+  cardHeader: {
+    fontFamily: "Impact, fantasy",
+    fontSize: "34px",
+    margin: "0%",
+    padding: "0%",
+  },
+  divider: {
+    maxWidth: "80%",
+    margin: "auto",
+    marginBottom: "10%",
+  },
+  title: {
+    margin: "auto",
+  },
+  item: {
+    margin: "3%",
+  },
+  formControl: {
+    margin: "2%",
+    minWidth: 120,
+  },
+  textfields: {
+    minWidth: 250,
+  },
+  container: {
+    border: "5px black solid",
+    borderRadius: "0px 0px 10px 10px",
+    maxWidth: 470,
+    backgroundColor: "#343434",
+    background:
+      "radial-gradient(ellipse at center," +
+      "#FFFFFF" +
+      " 0," +
+      "#3f51b5" +
+      " 100%)",
+  },
+  stepperHeader: {
+    maxWidth: 470,
+    backgroundColor: "black",
+    border: "5px black solid",
+    borderRadius: "10px 10px 0px 0px",
+  },
+};
+
 
 export default VehicleSection;

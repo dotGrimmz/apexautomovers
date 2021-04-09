@@ -18,7 +18,7 @@ const ServiceSection = (props) => {
     },
     image: {
       borderRadius: "10px",
-      border: "3px solid #000000",
+      boxShadow: "1px 2px 2px 1px  #000000",
       height: "auto",
       maxWidth: "100%",
     },

@@ -11,11 +11,12 @@ import GridContainer from "../Grid/GridContainer";
 import GridItem from "../Grid/GridItem";
 import Footer from "../Footer/Footer.jsx";
 import VehicleSection from "../VehicleSection/VehicleSection";
+import HomeBanner from "./HomeBanner";
 
 const useStyles = makeStyles(landingPageStyle);
 
 const Layout = (props) => {
-  const { children, handleReviewsScrollIntoView, handleServicesScrollIntoView, handleTeamScrollIntoView, routeToQuote } = props;
+  const { children, handleReviewsScrollIntoView, handleServicesScrollIntoView, handleTeamScrollIntoView, handleQuoteScrollIntoView, title } = props;
   const classes = useStyles();
 
 
@@ -49,33 +50,18 @@ const Layout = (props) => {
       />
       <Parallax image={index} filter="dark">
         <div className={classes.container}>
-          <GridContainer>
-            <GridItem xs={12} md={6}>
-              <h1 style={styles.title}>
-                Top Rated Vehicle Shipping Services in the South East
-              </h1>
-              <h4>Why choosing us will save you the most</h4>
-              <br />
-            </GridItem>
-            <GridItem xs={12} md={6} style={{ margin: "auto" }}>
-              <VehicleSection routeToQuote={routeToQuote} />
-            </GridItem>
-          </GridContainer>
+          {title && <HomeBanner handleQuoteScrollIntoView={handleQuoteScrollIntoView} />}
         </div>
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         {children}
       </div>
       <Footer handleReviewsScrollIntoView={handleReviewsScrollIntoView} handleTeamScrollIntoView={handleTeamScrollIntoView} handleServicesScrollIntoView={handleServicesScrollIntoView} />
+
     </div>
   );
 };
 
-const styles = {
-  title: {
-    fontFamily: "Impact, fantasy",
-    fontSize: "44px",
-  },
-};
+
 
 export default Layout;

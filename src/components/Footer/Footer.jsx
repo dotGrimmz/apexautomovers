@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from "react";
+import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { useScrollTo } from "react-use-window-scroll";
 import { useTheme } from "@material-ui/core/styles";
@@ -7,22 +7,12 @@ import Button from "@material-ui/core/Button";
 
 const Footer = (props) => {
   const { handleReviewsScrollIntoView, handleServicesScrollIntoView, handleTeamScrollIntoView } = props;
-  console.log(handleServicesScrollIntoView, 'scroll into view in footer')
 
   const theme = useTheme();
-  const scrollTo = useScrollTo();
   const screenSmall = useMediaQuery(theme.breakpoints.only("sm"));
   const screenExtraSmall = useMediaQuery(theme.breakpoints.only("xs"));
-  const screenMedium = useMediaQuery(theme.breakpoints.only("md"));
-  const screenLarge = useMediaQuery(theme.breakpoints.only("lg"));
-  const screenExtraLarge = useMediaQuery(theme.breakpoints.only("xl"));
 
 
-  if (screenSmall) console.log("screen small true");
-  if (screenExtraSmall) console.log("screen extra small true");
-  if (screenMedium) console.log("screen medium");
-  if (screenLarge) console.log("screen large");
-  if (screenExtraLarge) console.log("screen extra large");
 
   const styles = {
     container: {
@@ -37,26 +27,7 @@ const Footer = (props) => {
     },
   };
 
-  // first set top: 1664.39, left: 30
-  // second set top: 2523.42, left: 10
 
-  // ok so the goal is to collect the data needed for each element coordinate no matter what view and swap them
-  // for whichever view is true
-
-  const [coordinates, setCoordinates] = useState({
-    services: {
-      top: 879,
-      left: 30,
-    },
-    reviews: {
-      top: 1628,
-      left: 30,
-    },
-    aboutUs: {
-      top: 2200,
-      left: 0,
-    },
-  });
 
 
 

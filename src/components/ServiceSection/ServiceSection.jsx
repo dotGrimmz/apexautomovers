@@ -42,7 +42,7 @@ const ServiceSection = (props) => {
       justify="center"
       align="center"
       style={styles.container}
-      inputProps={{ 'id': 'services-section' }}
+      inputprops={{ 'id': 'services-section' }}
       ref={serviceSectionRef}
     >
       <Grid container justify="center">

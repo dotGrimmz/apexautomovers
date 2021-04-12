@@ -64,7 +64,6 @@ const HeaderLinks = (props) => {
           buttonText="Services"
           buttonProps={{
             className: classes.navLink,
-            color: "transparent",
           }}
           buttonIcon={Apps}
           dropdownList={[]}
@@ -80,7 +79,6 @@ const HeaderLinks = (props) => {
           buttonText="Reviews"
           buttonProps={{
             className: classes.navLink,
-            color: "transparent",
           }}
           buttonIcon={Apps}
           dropdownList={[]}
@@ -96,7 +94,6 @@ const HeaderLinks = (props) => {
           buttonText="about us"
           buttonProps={{
             className: classes.navLink,
-            color: "transparent",
           }}
           buttonIcon={Apps}
           dropdownList={[]}

@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Avatar from '@material-ui/core/Avatar';
 import shipping from '../../images/shipping.jpg'
 import AAMContext from '../../context/AAMContext';
 import QuotePanel from './QuotePanel';
@@ -14,15 +13,16 @@ import Typography from '@material-ui/core/Typography';
 const QuoteSection = props => {
     const { quoteSectionRef } = props;
     const context = useContext(AAMContext);
-    const { originCoordinates, destinationCoordinates, logisticsData, vehData } = context;
-    let directionsService;
-    let directionsDisplay;
+    const { originCoordinates, destinationCoordinates } = context;
+
 
 
     useEffect(() => {
         // how we will render the map
         // will need to wrap in a try catch, and finally set loaders and spinners the whole nine
         // might even move service calls into another file
+        let directionsService;
+        let directionsDisplay;
 
         const calcRoute = (x, y) => {
             let request = {
@@ -44,15 +44,15 @@ const QuoteSection = props => {
                 zoom: 7,
                 center: originData
             })
-            directionsService = new window.google.maps.DirectionsService;
-            directionsDisplay = new window.google.maps.DirectionsRenderer;
+            directionsService = new window.google.maps.DirectionsService();
+            directionsDisplay = new window.google.maps.DirectionsRenderer();
             directionsDisplay.setMap(directionsMap);
             calcRoute(originData, destinationData)
 
         }
         initMap(originCoordinates, destinationCoordinates)
 
-    }, [])
+    }, [originCoordinates, destinationCoordinates])
 
 
 

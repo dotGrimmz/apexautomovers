@@ -4,12 +4,10 @@ import ReviewsSection from '../../components/ReviewSection/ReviewsSection';
 import BottomBannerSection from '../../components/BottomBannerSection/BottomBannerSection';
 import TeamSection from '../../components/TeamSection/TeamSection'
 import Layout from '../../components/Layout/Layout';
-import Collapse from '@material-ui/core/Collapse';
 import Fade from '@material-ui/core/Fade';
 import QuoteSection from '../../components/QuoteSection/QuoteSection';
 
 import AAMContext from '../../context/AAMContext';
-import VehicleSection from '../../components/VehicleSection/VehicleSection';
 
 
 const LandingPage = () => {

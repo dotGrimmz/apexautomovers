@@ -7,10 +7,7 @@ import Parallax from "../Parallax/Parallax";
 import index from "../../images/index.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 import landingPageStyle from "../../assets/components/landingPageStyle";
-import GridContainer from "../Grid/GridContainer";
-import GridItem from "../Grid/GridItem";
 import Footer from "../Footer/Footer.jsx";
-import VehicleSection from "../VehicleSection/VehicleSection";
 import HomeBanner from "./HomeBanner";
 
 const useStyles = makeStyles(landingPageStyle);

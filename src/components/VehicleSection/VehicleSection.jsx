@@ -24,8 +24,7 @@ const getSteps = () => {
 };
 const service = new ApexAutoMoversService();
 
-const VehicleSection = (props) => {
-  const { handleQuoteScrollIntoView } = props;
+const VehicleSection = () => {
   const [vehYear, setVehYear] = useState("");
   const [vehMake, setVehMake] = useState("");
   const [vehModel, setVehModel] = useState("");
@@ -40,7 +39,7 @@ const VehicleSection = (props) => {
 
   const context = useContext(AAMContext);
   const { setLogisticsData, setVehData, setUserData, setOriginCoordinates,
-    setDestinationCoordinates, toggleQuoteGenerated, userData, vehData, logisticsData } = context;
+    setDestinationCoordinates, toggleQuoteGenerated } = context;
 
   const steps = getSteps();
   const [activeStep, setActiveStep] = useState(0);
@@ -142,7 +141,6 @@ const VehicleSection = (props) => {
     geocodeByAddress(value)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
-        console.log('Success', latLng)
         setDestinationCoordinates(latLng)
       })
       .catch(error => console.error('Error', error));
@@ -178,11 +176,11 @@ const VehicleSection = (props) => {
                         name='originCity'
                       />
                       {loading && <LinearProgress />}
-                      {suggestions.map((suggestion) => {
+                      {suggestions.map((suggestion, index) => {
                         let style = suggestion.active ? { backgroundColor: 'white', cursor: 'pointer' }
                           : { backgroundColor: 'lightblue', cursor: 'pointer' };
                         return (
-                          <div {...getSuggestionItemProps(suggestion, { style })}>
+                          <div {...getSuggestionItemProps(suggestion, { style })} key={index}>
                             {suggestion.description}
                           </div>
                         )
@@ -215,11 +213,11 @@ const VehicleSection = (props) => {
                         name='destinationCity'
                       />
                       {loading && <LinearProgress />}
-                      {suggestions.map((suggestion) => {
+                      {suggestions.map((suggestion, index) => {
                         let style = suggestion.active ? { backgroundColor: 'white', cursor: 'pointer' }
                           : { backgroundColor: 'lightblue', cursor: 'pointer' };
                         return (
-                          <div {...getSuggestionItemProps(suggestion, { style })}>
+                          <div {...getSuggestionItemProps(suggestion, { style })} key={index}>
                             {suggestion.description}
                           </div>
                         )
@@ -246,7 +244,7 @@ const VehicleSection = (props) => {
             </Grid>
             <Grid align="center">
               <Button
-                disabled={originCity === "" || destinationCity === ""}
+                disabled={originCity.length < 6 || destinationCity.length < 6}
                 variant="contained"
                 color="primary"
                 onClick={() => handleNext('logistics')}
@@ -420,7 +418,10 @@ const VehicleSection = (props) => {
             <Typography variant='h5' align='center'>
               {/* // youre going to display a confirmatio number that comes back from the back end that the end user can ref  */}
               <b> Thank You for Choosing Apex Auto Movers!</b>
-              <h6>Confirmation Number: <b>12343423</b> </h6>
+            </Typography>
+            <Typography variant='h6' align='center'>
+              Confirmation Number: <b>12343423</b>
+
             </Typography>
           </Grid>
         </Grid>

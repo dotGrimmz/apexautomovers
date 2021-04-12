@@ -109,10 +109,6 @@ class ContextImplementation extends Component {
 
     render() {
         const { children } = this.props;
-        console.log(this.state.quoteGenerated, 'logistics data')
-
-
-
         return (
             <AAMContext.Provider value={this.state}>{children}</AAMContext.Provider>
         )

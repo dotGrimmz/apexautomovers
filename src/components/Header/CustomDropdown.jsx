@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
 
@@ -16,22 +15,13 @@ import styles from "../../assets/components/customDropdownStyle";
 
 const useStyles = makeStyles(styles);
 
-//
-//
-//
 
 const CustomDropdown = (props) => {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (event) => {
-    if (anchorEl && anchorEl.contains(event.target)) {
-      setAnchorEl(null);
-    } else {
-      setAnchorEl(event.currentTarget);
-    }
-  };
+  const { handleClick } = props;
   const handleClose = (event) => {
     if (anchorEl.contains(event.target)) {
       return;
@@ -59,6 +49,7 @@ const CustomDropdown = (props) => {
     noLiPadding,
     innerDropDown,
     navDropdown,
+    name,
   } = props;
 
   const caretClasses = classNames({
@@ -100,6 +91,7 @@ const CustomDropdown = (props) => {
           return (
             <MenuItem
               key={key}
+              name={name}
               className={dropdownItem}
               style={{ overflow: "visible", padding: 0 }}
             >
@@ -110,6 +102,7 @@ const CustomDropdown = (props) => {
         return (
           <MenuItem
             key={key}
+            name={name}
             onClick={() => handleCloseMenu(prop)}
             className={dropdownItem}
           >
@@ -120,23 +113,31 @@ const CustomDropdown = (props) => {
     </MenuList>
   );
   return (
-    <div className={innerDropDown ? classes.innerManager : classes.manager}>
-      <div className={buttonText !== undefined ? "" : classes.target}>
+    <div
+      name={name}
+      className={innerDropDown ? classes.innerManager : classes.manager}
+    >
+      <div
+        name={name}
+        className={buttonText !== undefined ? "" : classes.target}
+      >
         <Button
           aria-label="Notifications"
+          name={name}
           aria-owns={anchorEl ? "menu-list" : null}
           aria-haspopup="true"
           {...buttonProps}
-          onClick={handleClick}
+          onClick={() => handleClick()}
         >
           {buttonIcon !== undefined ? (
-            <props.buttonIcon className={classes.buttonIcon} />
+            <props.buttonIcon name={name} className={classes.buttonIcon} />
           ) : null}
           {buttonText !== undefined ? buttonText : null}
-          {caret ? <b className={caretClasses} /> : null}
+          {caret ? <b name={name} className={caretClasses} /> : null}
         </Button>
       </div>
       <Popper
+        name={name}
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
         transition
@@ -150,6 +151,7 @@ const CustomDropdown = (props) => {
       >
         {() => (
           <Grow
+            name={name}
             in={Boolean(anchorEl)}
             id="menu-list"
             style={
@@ -162,10 +164,10 @@ const CustomDropdown = (props) => {
               {innerDropDown ? (
                 dropDownMenu
               ) : (
-                <ClickAwayListener onClickAway={handleClose}>
-                  {dropDownMenu}
-                </ClickAwayListener>
-              )}
+                  <ClickAwayListener onClickAway={handleClose}>
+                    {dropDownMenu}
+                  </ClickAwayListener>
+                )}
             </Paper>
           </Grow>
         )}
